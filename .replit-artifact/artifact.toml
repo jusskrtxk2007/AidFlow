@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AidFlow"
+description = "A live food redistribution application connecting donors, riders, and shelters. Coordinate deadline-aware donations, capacity-safe deliveries, shelter demand, and supply zones in one shared operations workspace."
+version = "1.0.0"
+id = "artifacts/aidflow"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22119
+
+[services.development]
+run = "pnpm --filter @workspace/aidflow run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/aidflow", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/aidflow/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22119"
+BASE_PATH = "/"
